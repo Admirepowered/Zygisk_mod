@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="zh-CN" class="mdui-theme-auto">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"/>
+    <meta name="renderer" content="webkit"/>
+	<!-- Filled fonts.googleapis.com-->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+	<!-- Outlined -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+
+	<!-- Rounded -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+
+	<!-- Sharp -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+
+	<!-- Two Tone -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Two+Tone" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/mdui@2/mdui.css">
+    <script src="https://unpkg.com/mdui@2/mdui.global.js"></script>
+
+    <!-- 如果使用了组件的 icon 属性，还需要引入图标的 CSS 文件 -->
+	<mdui-top-app-bar style="position: relative;">
+
+	  <mdui-top-app-bar-title>Zygisk</mdui-top-app-bar-title>
+	  <mdui-dropdown>
+		<mdui-button-icon slot="trigger" icon="more_vert"></mdui-button-icon>
+
+		<mdui-menu selects="single" value="auto" class="menu">
+		<mdui-menu-item value="light">亮色模式</mdui-menu-item>
+		<mdui-menu-item value="dark">暗色模式</mdui-menu-item>
+		<mdui-divider></mdui-divider>
+		<mdui-menu-item value="auto">跟随系统</mdui-menu-item>
+		</mdui-menu>
+	  </mdui-dropdown>
+
+
+
+
+
+	</mdui-top-app-bar>
+	<mdui-list>
+
+	  <mdui-collapse accordion>
+		<mdui-collapse-item accordion >
+		  <mdui-list-item slot="header" icon="arrow_drop_down">Version</mdui-list-item>
+		  <div style="margin-left: 2.5rem">
+			<mdui-list-item>i dont' know</mdui-list-item>
+		  </div>
+		</mdui-collapse-item>
+		<mdui-collapse-item>
+		  <mdui-list-item slot="header" icon="near_me">Dashboard</mdui-list-item>
+		  <div style="margin-left: 2.5rem">
+			<mdui-list-item>Root implementemtation - 😊</mdui-list-item>
+			<mdui-list-item>Tracer                 - 😊</mdui-list-item>
+			<mdui-list-item>Deamon                 - 😊</mdui-list-item>
+			<mdui-list-item>Zygote                 - 😊</mdui-list-item>
+
+		  </div>
+		</mdui-collapse-item>
+		<mdui-collapse-item>
+		<mdui-list-item slot="header" icon="near_me">Module</mdui-list-item>
+			<div style="margin-left: 2.5rem">
+			</div>
+
+		</mdui-collapse-item>
+		<mdui-card style="width: 70px;height: 20px;text-align:right">Tarcert</mdui-card>
+		<mdui-switch checked=true></mdui-switch>
+
+	</mdui-list>
+
+    <title>Zygisk Webui</title>
+  </head>
+  <body>
+    <!--<mdui-button>Zygisk Webui</mdui-button>-->
+  </body>
+  <script>
+
+	const witch = document.querySelector('mdui-switch');
+	console.log(witch)
+	  // 设置 JavaScript 属性
+	  witch.variant = 'outlined';
+	  witch.addEventListener('click', () => {
+			//console.log('对话框开始打开时，会触发该事件');
+			//alert('Art')
+			console.log(witch.checked)
+			if (witch.checked){
+				info = apatch.exec('/data/adb/modules/zygisksu/bin/zygisk-ptrace64 stop');
+				//alert(info);
+			}{
+				info = apatch.exec('/data/adb/modules/zygisksu/bin/zygisk-ptrace64 start');
+				//alert(info);
+			}
+	  });
+	  // 读取 JavaScript 属性
+	  console.log(witch.variant); // outlined
+	  const div = document.querySelectorAll('div');
+	  //div[2].innerHTML="<mdui-list-item>LSPosed                 - 😊</mdui-list-item>\n<mdui-list-item>LSPosed                 - 😊</mdui-list-item>"
+	  const item = document.querySelectorAll('mdui-list-item');
+	  const menu_item = document.querySelectorAll('mdui-menu-item');
+	  menu_item[0].addEventListener('click', () => {
+			//亮色模式
+			const html = document.querySelectorAll('html');
+			html[0].setAttribute("class","mdui-theme")
+	  });
+	  menu_item[1].addEventListener('click', () => {
+			//暗色模式
+			const html = document.querySelectorAll('html');
+			html[0].setAttribute("class","mdui-theme-dark")
+	  });
+	  menu_item[2].addEventListener('click', () => {
+			//auto
+			const html = document.querySelectorAll('html');
+			html[0].setAttribute("class","mdui-theme-auto")
+	  });
+
+	  //item[1].textContent='1.0-RC2(245)';
+	  try	{
+		info = apatch.exec('/data/adb/modules/zygisksu/bin/zygiskd64 version');
+		item[1].textContent=info;
+
+		info = apatch.exec('/data/adb/ap/bin/busybox cat /data/adb/modules/zygisksu/info.json');
+		//alert(info)
+		//var info = '{"a":0,"b":0,"p32":0,"p64":0}'
+		list = JSON.parse(info)
+		switch(list.a){
+			case 0:
+				item[3].textContent="Root implementemtation - 😊tracing";
+				break
+			case 1:
+				item[3].textContent="Root implementemtation - ❌stopped";
+				break
+			case 2:
+				item[3].textContent="Root implementemtation - ❌exitd";
+				break
+		}
+		switch(list.a){
+			case 0:
+				item[4].textContent="Zygote                 - 😊tracing";
+				break
+			case 1:
+				item[4].textContent="Zygote                 - ❌stopped";
+				break
+			case 2:
+				item[4].textContent="Zygote                 - ❌exitd";
+				break
+		}
+		switch(list.p32){
+			case 0:
+				item[5].textContent="daemon[32]             - 😊tracing";
+				break
+			case 1:
+				item[5].textContent="daemon[32]             - ❌stopped";
+				break
+			case 2:
+				item[5].textContent="daemon[32]             - ❌exitd";
+				break
+		}
+		switch(list.p64){
+			case 0:
+				item[6].textContent="daemon[64]             - 😊tracing";
+				break
+			case 1:
+				item[6].textContent="daemon[64]             - ❌stopped";
+				break
+			case 2:
+				item[6].textContent="daemon[64]             - ❌exitd";
+				break
+		}
+		var mod="Root: Apatch,module(1): zygisk_lsposed"
+		mod=list.in64
+		list = mod.split(":")[2]
+		mod=list.split(",")
+		modlist=""
+		for (i=0;i<mod.length;i++){
+			modlist +="<mdui-list-item>"+mod[i]+"- 😊 </mdui-list-item>"
+		}
+		div[2].innerHTML=modlist
+
+	  }catch(i){
+		item[1].textContent=i;
+		//item[3].textContent=i;
+		//item[4].textContent=i;
+		//item[5].textContent=i;
+		//item[6].textContent=i;
+	  }
+</script>
+</html>

@@ -52,6 +52,9 @@ androidComponents.onVariants { variant ->
         )
         into(moduleDir)
         from("${rootProject.projectDir}/README.md")
+        into("$moduleDir/webroot") {
+            from("$projectDir/webroot/index.html")
+        }    
         from("$projectDir/src") {
             exclude("module.prop", "customize.sh", "post-fs-data.sh", "service.sh", "zygisk-ctl.sh", "mazoku")
             filter<FixCrLfFilter>("eol" to FixCrLfFilter.CrLf.newInstance("lf"))

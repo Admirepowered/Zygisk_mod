@@ -105,6 +105,8 @@ mkdir "$MODPATH/bin"
 mkdir "$MODPATH/lib"
 mkdir "$MODPATH/lib64"
 mv "$MODPATH/zygisk-ctl.sh" "$MODPATH/bin/zygisk-ctl"
+unzip -o "$ZIPFILE" "webroot/*" -x "*.sha256" -d "$MODPATH"
+
 
 if [ "$ARCH" = "x86" ] || [ "$ARCH" = "x64" ]; then
   ui_print "- Extracting x86 libraries"
