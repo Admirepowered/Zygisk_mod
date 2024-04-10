@@ -88,10 +88,10 @@
 			//alert('Art')
 			console.log(witch.checked)
 			if (witch.checked){
-				info = apatch.exec('/data/adb/modules/zygisksu/bin/zygisk-ptrace64 stop');
+				info = ksu.exec('/data/adb/modules/zygisksu/bin/zygisk-ptrace64 stop');
 				//alert(info);
 			}{
-				info = apatch.exec('/data/adb/modules/zygisksu/bin/zygisk-ptrace64 start');
+				info = ksu.exec('/data/adb/modules/zygisksu/bin/zygisk-ptrace64 start');
 				//alert(info);
 			}
 	  });
@@ -119,10 +119,10 @@
 
 	  //item[1].textContent='1.0-RC2(245)';
 	  try	{
-		info = apatch.exec('/data/adb/modules/zygisksu/bin/zygiskd64 version');
+		info = ksu.exec('/data/adb/modules/zygisksu/bin/zygiskd64 version');
 		item[1].textContent=info;
 
-		info = apatch.exec('/data/adb/ap/bin/busybox cat /data/adb/modules/zygisksu/info.json');
+		info = ksu.exec('cat /data/adb/modules/zygisksu/info.json');
 		//alert(info)
 		//var info = '{"a":0,"b":0,"p32":0,"p64":0}'
 		list = JSON.parse(info)
