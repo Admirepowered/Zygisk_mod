@@ -34,7 +34,7 @@ static CONTROLLER_SOCKET: LateInit<String> = LateInit::new();
 static PATH_CP_NAME: LateInit<String> = LateInit::new();
 
 pub fn main() -> Result<()> {
-    info!("Welcome to Zygisk Next ({}) !", constants::ZKSU_VERSION);
+    info!("Welcome to Zygisk_mod ({}) !", constants::ZKSU_VERSION);
 
     TMP_PATH.init(std::env::var("TMP_PATH")?);
     CONTROLLER_SOCKET.init(format!("{}/init_monitor", TMP_PATH.deref()));

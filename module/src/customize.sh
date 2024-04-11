@@ -29,10 +29,16 @@ if [ "$BOOTMODE" ] && [ "$KSU" ]; then
     ui_print "! Please update KernelSU Manager to latest version"
     abort    "*********************************************************"
   fi
+  if ! [ "$APATCH_VER_CODE" ] || [ "$APATCH_VER_CODE" -lt "$MIN_APATCH_VERSION" ]; then
+    ui_print "*********************************************************"
+    ui_print "! Apatch version is too old!"
+    ui_print "! Please update Apatch to latest version"
+    abort    "*********************************************************"
+  fi
   if [ "$(which magisk)" ]; then
     ui_print "*********************************************************"
     ui_print "! Multiple root implementation is NOT supported!"
-    ui_print "! Please uninstall Magisk before installing Zygisk Next"
+    ui_print "! Please uninstall Magisk before installing Zygisk_mod"
     abort    "*********************************************************"
   fi
   elif [ "$BOOTMODE" ] && [ "$APATCH" ]; then
@@ -53,7 +59,7 @@ else
 fi
 
 VERSION=$(grep_prop version "${TMPDIR}/module.prop")
-ui_print "- Installing Zygisk Next $VERSION"
+ui_print "- Installing Zygisk_mod $VERSION"
 
 # check android
 if [ "$API" -lt 26 ]; then

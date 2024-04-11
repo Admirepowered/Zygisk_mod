@@ -19,15 +19,15 @@ val gitCommitCount = "git rev-list HEAD --count".execute().toInt()
 val gitCommitHash = "git rev-parse --verify --short HEAD".execute()
 
 val moduleId by extra("zygisksu")
-val moduleName by extra("Zygisk Next")
-val verName by extra("v4-0.9.1.1")
+val moduleName by extra("Zygisk_mod")
+val verName by extra("v4-0.9.3")
 val verCode by extra(gitCommitCount)
 val commitHash by extra(gitCommitHash)
 val minKsuVersion by extra(10940)
 val minKsudVersion by extra(11425)
 val maxKsuVersion by extra(20000)
 val minMagiskVersion by extra(26402)
-val minApatchVersion by extra(10400)
+val minApatchVersion by extra(10655)
 
 val androidMinSdkVersion by extra(26)
 val androidTargetSdkVersion by extra(34)
@@ -43,7 +43,7 @@ tasks.register("Delete", Delete::class) {
 
 fun Project.configureBaseExtension() {
     extensions.findByType(LibraryExtension::class)?.run {
-        namespace = "icu.nullptr.zygisk.next"
+        namespace = "me.admirepowered.zygisk.mod"
         compileSdk = androidCompileSdkVersion
         ndkVersion = androidCompileNdkVersion
         buildToolsVersion = androidBuildToolsVersion

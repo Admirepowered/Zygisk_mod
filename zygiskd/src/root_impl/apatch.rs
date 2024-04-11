@@ -11,11 +11,28 @@ pub enum Version {
     TooOld,
     Abnormal,
 }
+fn parse_version(output: &str) -> Option<i32> {
+    let mut version: Option<i32> = None;
+    for line in output.lines() {
+        if let Some(num) = line.trim().split_whitespace().last() {
+            if let Ok(v) = num.parse::<i32>() {
+                version = Some(v);
+                break;
+            }
+        }
+    }
+    version
+}
 
 pub fn get_apatch() -> Option<Version> {
-    let file_path = "/data/adb/ap/version";
-    let contents = fs::read_to_string(file_path).ok()?;
-    let version: Option<i32> = contents.trim().parse().ok();
+    let output = Command::new("/data/adb/ap/apd")
+        .arg("-V")
+        .stdout(Stdio::piped())
+        .stderr(Stdio::null())
+        .output()
+        .ok()?;
+    let stdout = String::from_utf8(output.stdout).ok()?;
+    let version = parse_version(&stdout)?;
     const MAX_OLD_VERSION: i32 = MIN_APATCH_VERSION - 1;
     match version {
         Some(0) => None,

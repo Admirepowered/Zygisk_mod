@@ -505,6 +505,7 @@ static void updateStatus() {
     std::string status_text = "monitor:";
     std::string in32="";
     std::string in64="";
+    std::string out="";
     switch (tracing_state) {
         case TRACING:
             state=0;
@@ -525,30 +526,23 @@ static void updateStatus() {
         status_text += "(";
         status_text += monitor_stop_reason;
         status_text += ")";
+        out += "stoped:"+monitor_stop_reason;
     }
-    status_text += ",";
+
 #define WRITE_STATUS_ABI(suffix) \
     if (status##suffix.supported) { \
-        status_text += " zygote" #suffix ":"; \
-        if (tracing_state != TRACING) {status_text += "❓unknown,";state1=1;} \
-        else if (status##suffix.zygote_injected) {status_text += "😋injected,";state1=0;} \
-        else {status_text += "❌not injected,";state1=2;} \
-        status_text += " daemon" #suffix ":"; \
+        if (tracing_state != TRACING) {state1=1;} \
+        else if (status##suffix.zygote_injected) {state1=0;} \
+        else {state1=2;} \
         if (status##suffix.daemon_running) {  \
-            status_text += "😋running";state##suffix=0;       \
+            state##suffix=0;       \
             if (!status##suffix.daemon_info.empty()) { \
-                status_text += "("; \
-                status_text += status##suffix.daemon_info; \
                 in##suffix  += status##suffix.daemon_info; \
-                status_text += ")"; \
             } \
         } else { \
-            status_text += "❌crashed";state##suffix=1; \
+            state##suffix=1; \
             if (!status##suffix.daemon_error_info.empty()) { \
-                status_text += "("; \
-                status_text += status##suffix.daemon_error_info; \
                 in##suffix  += status##suffix.daemon_info; \
-                status_text += ")"; \
             } \
         } \
     }
@@ -556,7 +550,7 @@ static void updateStatus() {
     WRITE_STATUS_ABI(32)
 
     fprintf(prop.get(), "%s[%s] %s", pre_section.c_str(), status_text.c_str(), post_section.c_str());
-    fprintf(info.get(),"{\"a\":%d,\"b\":%d,\"p32\":%d,\"p64\":%d,\"in32\":\"%s\",\"in64\":\"%s\"}",state,state1,state32,state64,in32.c_str(),in64.c_str());
+    fprintf(info.get(),"{\"a\":%d,\"b\":%d,\"p32\":%d,\"p64\":%d,\"in32\":\"%s\",\"in64\":\"%s\",\"out\":\"%s\"}",state,state1,state32,state64,in32.c_str(),in64.c_str(),out.c_str());
 }
 
 static bool prepare_environment() {
