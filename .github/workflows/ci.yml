@@ -84,10 +84,10 @@ jobs:
         if: success()
         id: prepareArtifact
         run: |
-          releaseName=`ls module/build/outputs/release/Zygisk-Next-v*-release.zip | awk -F '(/|.zip)' '{print $5}'` && echo "releaseName=$releaseName" >> $GITHUB_OUTPUT
-          debugName=`ls module/build/outputs/release/Zygisk-Next-v*-debug.zip | awk -F '(/|.zip)' '{print $5}'` && echo "debugName=$debugName" >> $GITHUB_OUTPUT
-          unzip module/build/outputs/release/Zygisk-Next-v*-release.zip -d zksu-release
-          unzip module/build/outputs/release/Zygisk-Next-v*-debug.zip -d zksu-debug
+          releaseName=`ls module/build/outputs/release/Zygisk_mod-v*-release.zip | awk -F '(/|.zip)' '{print $5}'` && echo "releaseName=$releaseName" >> $GITHUB_OUTPUT
+          debugName=`ls module/build/outputs/release/Zygisk_mod-v*-debug.zip | awk -F '(/|.zip)' '{print $5}'` && echo "debugName=$debugName" >> $GITHUB_OUTPUT
+          unzip module/build/outputs/release/Zygisk_mod-v*-release.zip -d zksu-release
+          unzip module/build/outputs/release/Zygisk_mod-v*-debug.zip -d zksu-debug
           releaseSymbolName="SYMBOLS-$releaseName.zip"
           debugSymbolName="SYMBOLS-$debugName.zip"
           echo "releaseSymbolName=$releaseSymbolName" >> $GITHUB_OUTPUT
