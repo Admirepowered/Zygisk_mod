@@ -35,10 +35,10 @@ pub fn get_apatch() -> Option<Version> {
     let version = parse_version(&stdout)?;
     const MAX_OLD_VERSION: i32 = MIN_APATCH_VERSION - 1;
     match version {
-        Some(0) => Version::Abnormal,
-        Some(v) if v >= MIN_APATCH_VERSION && v <= 999999 => Some(Version::Supported),
-        Some(v) if v >= 1 && v <= MAX_OLD_VERSION => Some(Version::TooOld),
-        _ => Some(Version::Abnormal), // 处理其他可能的情况
+        Some(0) => -1,
+        Some(v) if v >= MIN_APATCH_VERSION && v <= 999999 => Version::Supported,
+        Some(v) if v >= 1 && v <= MAX_OLD_VERSION => Version::TooOld,
+        _ => None,
     }
 }
 
