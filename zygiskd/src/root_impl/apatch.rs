@@ -25,7 +25,7 @@ fn parse_version(output: &str) -> i32 {
 }
 
 pub fn get_apatch() -> Option<Version> {
-    let output = Command::new("/data/adb/ap/apd")
+    let output = Command::new("/data/adb/apd")
         .arg("-V")
         .stdout(Stdio::piped())
         .stderr(Stdio::null())
