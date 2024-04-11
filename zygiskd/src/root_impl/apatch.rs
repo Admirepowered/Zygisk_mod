@@ -11,7 +11,7 @@ pub enum Version {
     TooOld,
     Abnormal,
 }
-fn parse_version(output: &str) -> Option<i32> {
+fn parse_version(output: &str) -> i32 {
     let mut version: Option<i32> = None;
     for line in output.lines() {
         if let Some(num) = line.trim().split_whitespace().last() {
@@ -21,7 +21,7 @@ fn parse_version(output: &str) -> Option<i32> {
             }
         }
     }
-    version
+    version.unwrap_or_default() // 返回 i32 类型的值
 }
 
 pub fn get_apatch() -> Option<Version> {
@@ -32,12 +32,12 @@ pub fn get_apatch() -> Option<Version> {
         .output()
         .ok()?;
     let stdout = String::from_utf8(output.stdout).ok()?;
-    let version = parse_version(&stdout)?;
+    let version = parse_version(&stdout); // 返回 i32 类型的值
     const MAX_OLD_VERSION: i32 = MIN_APATCH_VERSION - 1;
     match version {
-        Some(0) => Some(Version::Abnormal),
-        Some(v) if v >= MIN_APATCH_VERSION && v <= 999999 => Some(Version::Supported),
-        Some(v) if v >= 1 && v <= MAX_OLD_VERSION => Some(Version::TooOld),
+        0 => Some(Version::Abnormal),
+        v if v >= MIN_APATCH_VERSION && v <= 999999 => Some(Version::Supported),
+        v if v >= 1 && v <= MAX_OLD_VERSION => Some(Version::TooOld),
         _ => None,
     }
 }
