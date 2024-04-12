@@ -57,7 +57,7 @@ struct ZygiskContext {
     JNIEnv *env;
     union {
         void *ptr;
-        AppSpecializeArgs_v3 *app;
+        AppSpecializeArgs_v5 *app;
         ServerSpecializeArgs_v1 *server;
     } args;
 

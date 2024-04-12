@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-# keep sync with https://github.com/topjohnwu/Magisk/blob/master/native/src/core/zygisk/gen_jni_hooks.py
-
 primitives = ['jint', 'jboolean', 'jlong']
 
 class JType:
@@ -257,36 +255,3 @@ with open('jni_hooks.hpp', 'w') as f:
     f.write(gen_jni_def(zygote, methods))
 
     f.write('\n} // namespace\n')
-
-    f.write("""
-static void do_hook_zygote(JNIEnv *env) {
-    vector<JNINativeMethod> hooks;
-    const char *clz;
-    clz = "com/android/internal/os/Zygote";
-    hookJniNativeMethods(env, clz, nativeForkAndSpecialize_methods.data(), nativeForkAndSpecialize_methods.size());
-    for (auto &method : nativeForkAndSpecialize_methods) {
-        if (method.fnPtr) {
-            nativeForkAndSpecialize_orig = method.fnPtr;
-            hooks.emplace_back(method);
-            break;
-        }
-    }
-    hookJniNativeMethods(env, clz, nativeSpecializeAppProcess_methods.data(), nativeSpecializeAppProcess_methods.size());
-    for (auto &method : nativeSpecializeAppProcess_methods) {
-        if (method.fnPtr) {
-            nativeSpecializeAppProcess_orig = method.fnPtr;
-            hooks.emplace_back(method);
-            break;
-        }
-    }
-    hookJniNativeMethods(env, clz, nativeForkSystemServer_methods.data(), nativeForkSystemServer_methods.size());
-    for (auto &method : nativeForkSystemServer_methods) {
-        if (method.fnPtr) {
-            nativeForkSystemServer_orig = method.fnPtr;
-            hooks.emplace_back(method);
-            break;
-        }
-    }
-    jni_hook_list->emplace(clz, std::move(hooks));
-}
-""")
