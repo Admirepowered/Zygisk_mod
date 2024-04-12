@@ -26,6 +26,9 @@ Standalone implementation of Zygisk, providing Zygisk API support for KernelSU,A
 
 + Minimal version: 26402
 + Built-in Zygisk turned off
+## Credits
+
+- [Zygisk Next](https://github.com/Dr-TSNG/ZygiskNext): The opensource code
 
 ## Compatibility
 
