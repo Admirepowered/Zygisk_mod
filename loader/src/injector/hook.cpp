@@ -6,6 +6,8 @@
 #include <list>
 #include <map>
 #include <array>
+#include <iostream>
+#include <filesystem>
 
 #include <lsplt.hpp>
 
@@ -25,6 +27,7 @@
 #include "art_method.hpp"
 
 using namespace std;
+namespace fs = std::filesystem;
 
 static void hook_unloader();
 static void unhook_functions();
@@ -584,9 +587,15 @@ void ZygiskContext::run_modules_post() {
 void ZygiskContext::app_specialize_pre() {
     flags[APP_SPECIALIZE] = true;
     info_flags = zygiskd::GetProcessFlags(g_ctx->args.app->uid);
-    if ((info_flags & PROCESS_ON_DENYLIST)==PROCESS_ON_DENYLIST){
-        flags[DO_REVERT_UNMOUNT] = true;
-    }
+    std::string filePath = "/data/adb/modules/zygisksu/noable";
+    if (!fs::exists(filePath)) {
+
+        if ((info_flags & PROCESS_ON_DENYLIST)==PROCESS_ON_DENYLIST){
+            flags[DO_REVERT_UNMOUNT] = true;
+        }
+        
+    } 
+
     if ((info_flags & (PROCESS_IS_MANAGER | PROCESS_ROOT_IS_MAGISK)) == (PROCESS_IS_MANAGER | PROCESS_ROOT_IS_MAGISK)) {
         LOGI("current uid %d is manager!", g_ctx->args.app->uid);
         setenv("ZYGISK_ENABLED", "1", 1);
