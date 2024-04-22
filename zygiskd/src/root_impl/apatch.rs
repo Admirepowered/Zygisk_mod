@@ -95,7 +95,7 @@ pub fn uid_should_umount(uid: i32) -> bool {
                     match config.exclude {
                         0 => false,
                         1 => true,
-                        _ => true,
+                        _ => false,
                     }
                 })
                 .unwrap_or(true)
