@@ -103,12 +103,11 @@ pub fn uid_should_umount(uid: i32) -> bool {
                 .find(|config| config.uid == uid)
                 .map(|config| {
                     match config.exclude {
-                        0 => false,
                         1 => true,
                         _ => false,
                     }
                 })
-                .unwrap_or(true)
+                .unwrap_or(false)
         }
         Err(err) => {
             log::warn!("Error reading package configs");
