@@ -41,6 +41,7 @@ pub fn get_apatch() -> Option<Version> {
         .stderr(Stdio::null())
         .output()
         .ok()?;
+    let stdout = String::from_utf8(output.stdout).ok()?;
     let version = parse_version(&stdout); // 返回 i32 类型的值
     const MAX_OLD_VERSION: i32 = MIN_APATCH_VERSION - 1;
     match version {
