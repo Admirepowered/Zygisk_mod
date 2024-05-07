@@ -88,7 +88,7 @@
 			//alert('Art')
 			console.log(witch.checked)
 			if (witch.checked){
-				info = ksu.exec('echo 1 >> /data/adb/modules/zygisksu/noable');//关闭按钮
+				info = ksu.exec('touch /data/adb/modules/zygisksu/noable');//关闭按钮
 				//alert(info);
 			}{
 				info = ksu.exec('rm /data/adb/modules/zygisksu/noable');//开启按钮
@@ -121,7 +121,7 @@
 	  try	{
 		info = ksu.exec('/data/adb/modules/zygisksu/bin/zygiskd64 version');
 		item[1].textContent=info;
-		info = ksu.exec('cat /data/adb/modules/zygisksu/noable');
+		info = ksu.exec('if [ -e /data/adb/modules/zygisksu/noable ]; then echo 1; fi');
 		if (info!=""){
 			witch.checked=false;
 		}
