@@ -542,7 +542,10 @@ static void updateStatus() {
         } else { \
             state##suffix=1; \
             if (!status##suffix.daemon_error_info.empty()) { \
+                status_text += "("; \
+                status_text += status##suffix.daemon_error_info; \
                 in##suffix  += status##suffix.daemon_info; \
+                status_text += ")"; \
             } \
         } \
     }

@@ -25,14 +25,24 @@ fn parse_version(output: &str) -> i32 {
 }
 
 pub fn get_apatch() -> Option<Version> {
-    let output = Command::new("/data/adb/apd")
-        .arg("-V")
+    let output = Command::new("su")
+        .arg("-v")
         .stdout(Stdio::piped())
         .stderr(Stdio::null())
         .output()
         .ok()?;
     let stdout = String::from_utf8(output.stdout).ok()?;
-    let version = parse_version(&stdout); // 返回 i32 类型的值
+    if !stdout.contains("APatch") {
+        return None;
+    }
+    let output1 = Command::new("/data/adb/apd")
+        .arg("-V")
+        .stdout(Stdio::piped())
+        .stderr(Stdio::null())
+        .output()
+        .ok()?;
+    let stdout1 = String::from_utf8(output1.stdout).ok()?;
+    let version = parse_version(&stdout1); // 返回 i32 类型的值
     const MAX_OLD_VERSION: i32 = MIN_APATCH_VERSION - 1;
     match version {
         0 => Some(Version::Abnormal),
@@ -93,12 +103,11 @@ pub fn uid_should_umount(uid: i32) -> bool {
                 .find(|config| config.uid == uid)
                 .map(|config| {
                     match config.exclude {
-                        0 => false,
                         1 => true,
-                        _ => true,
+                        _ => false,
                     }
                 })
-                .unwrap_or(true)
+                .unwrap_or(false)
         }
         Err(err) => {
             log::warn!("Error reading package configs");
