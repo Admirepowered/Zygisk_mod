@@ -118,7 +118,7 @@
 	  });
 
 	  try	{
-		info = ksu.exec('/data/adb/modules/zygisksu/bin/zygiskd64 version');
+		info = ksu.exec('/data/adb/modules/admirepowered/bin/zygiskd64 version');
 		item[1].textContent=info;
 		info = ksu.exec('if [ -e /sdcard/noable ]; then echo 1; fi');
 		if (info!=""){
