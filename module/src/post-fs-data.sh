@@ -28,7 +28,7 @@ create_sys_perm() {
 
 export TMP_PATH=/sbin
 [ -d /sbin ] || export TMP_PATH=/debug_ramdisk
-
+[ ! -e /data/adb/litemode ] || export TMP_PATH=/dev/net0
 create_sys_perm $TMP_PATH
 
 if [ -f $MODDIR/lib64/libzygisk.so ];then
