@@ -558,7 +558,7 @@ static void updateStatus() {
 
 static bool prepare_environment() {
     prop_path = zygiskd::GetTmpPath() + "/module.prop";
-    info_path = "/data/adb/modules/zygisksu/info.json";
+    info_path = "/data/adb/modules/info.json";
     close(open(prop_path.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644));
     auto orig_prop = xopen_file("./module.prop", "r");
     if (orig_prop == nullptr) {

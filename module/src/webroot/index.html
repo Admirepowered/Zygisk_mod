@@ -88,10 +88,10 @@
 			//alert('Art')
 			console.log(witch.checked)
 			if (witch.checked){
-				info = ksu.exec('touch /data/adb/modules/zygisksu/noable');//关闭按钮
+				info = ksu.exec('touch /sdcard/noable');//关闭按钮
 				//alert(info);
 			}{
-				info = ksu.exec('rm /data/adb/modules/zygisksu/noable');//开启按钮
+				info = ksu.exec('rm /sdcard/noable');//开启按钮
 				//alert(info);
 			}
 	  });
@@ -117,15 +117,14 @@
 			html[0].setAttribute("class","mdui-theme-auto")
 	  });
 
-	  //item[1].textContent='1.0-RC2(245)';
 	  try	{
 		info = ksu.exec('/data/adb/modules/zygisksu/bin/zygiskd64 version');
 		item[1].textContent=info;
-		info = ksu.exec('if [ -e /data/adb/modules/zygisksu/noable ]; then echo 1; fi');
+		info = ksu.exec('if [ -e /sdcard/noable ]; then echo 1; fi');
 		if (info!=""){
 			witch.checked=false;
 		}
-		info = ksu.exec('cat /data/adb/modules/zygisksu/info.json');
+		info = ksu.exec('cat /data/adb/modules/info.json');
 		//alert(info)
 		//var info = '{"a":0,"b":0,"p32":0,"p64":0}'
 		list = JSON.parse(info)

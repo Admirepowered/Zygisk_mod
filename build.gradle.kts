@@ -18,7 +18,7 @@ fun String.execute(currentWorkingDir: File = file("./")): String {
 val gitCommitCount = "git rev-list HEAD --count".execute().toInt()
 val gitCommitHash = "git rev-parse --verify --short HEAD".execute()
 
-val moduleId by extra("zygisksu")
+val moduleId by extra("admirepowered")
 val moduleName by extra("Zygisk_mod")
 val verName by extra("v4-0.9.3")
 val verCode by extra(gitCommitCount)
