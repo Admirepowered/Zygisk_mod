@@ -1,16 +1,13 @@
 /* fallback */
 @font-face {
-  font-family: 'Material Icons Two Tone';
+  font-family: 'Material Icons Sharp';
   font-style: normal;
   font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/materialiconstwotone/v112/hESh6WRmNCxEqUmNyh3JDeGxjVVyMg4tHGctNCu0.woff2) format('woff2');
-}
-body {
-  --google-font-color-materialiconstwotone:none;
+  src: url(oPWQ_lt5nv4pWNJpghLP75WiFR4kLh3kvmvR.woff2) format('woff2');
 }
 
-.material-icons-two-tone {
-  font-family: 'Material Icons Two Tone';
+.material-icons-sharp {
+  font-family: 'Material Icons Sharp';
   font-weight: normal;
   font-style: normal;
   font-size: 24px;

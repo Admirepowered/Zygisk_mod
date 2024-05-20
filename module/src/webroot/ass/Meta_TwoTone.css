@@ -1,13 +1,16 @@
 /* fallback */
 @font-face {
-  font-family: 'Material Icons Outlined';
+  font-family: 'Material Icons Two Tone';
   font-style: normal;
   font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/materialiconsoutlined/v109/gok-H7zzDkdnRel8-DQ6KAXJ69wP1tGnf4ZGhUce.woff2) format('woff2');
+  src: url(hESh6WRmNCxEqUmNyh3JDeGxjVVyMg4tHGctNCu0.woff2) format('woff2');
+}
+body {
+  --google-font-color-materialiconstwotone:none;
 }
 
-.material-icons-outlined {
-  font-family: 'Material Icons Outlined';
+.material-icons-two-tone {
+  font-family: 'Material Icons Two Tone';
   font-weight: normal;
   font-style: normal;
   font-size: 24px;
