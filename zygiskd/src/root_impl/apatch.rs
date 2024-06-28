@@ -1,7 +1,6 @@
 use std::process::{Command, Stdio};
 use std::fs::File;
-use std::fs;
-use std::io::{BufRead, BufReader};
+use std::io::{self, BufRead, BufReader};
 use csv::Reader;
 use serde::Deserialize;
 use crate::constants::MIN_APATCH_VERSION;
@@ -11,6 +10,7 @@ pub enum Version {
     TooOld,
     Abnormal,
 }
+
 fn parse_version(output: &str) -> i32 {
     let mut version: Option<i32> = None;
     for line in output.lines() {
@@ -21,11 +21,21 @@ fn parse_version(output: &str) -> i32 {
             }
         }
     }
-    version.unwrap_or_default() // 返回 i32 类型的值
+    version.unwrap_or_default() // Return i32 type value
+}
+
+fn read_su_path() -> Result<String, io::Error> {
+    let file = File::open("/data/adb/ap/su_path")?;
+    let mut reader = BufReader::new(file);
+    let mut su_path = String::new();
+    reader.read_line(&mut su_path)?;
+    Ok(su_path.trim().to_string())
 }
 
 pub fn get_apatch() -> Option<Version> {
-    let output = Command::new("su")
+    let su_path = read_su_path().ok()?;
+    
+    let output = Command::new(&su_path)
         .arg("-v")
         .stdout(Stdio::piped())
         .stderr(Stdio::null())
@@ -35,6 +45,7 @@ pub fn get_apatch() -> Option<Version> {
     if !stdout.contains("APatch") {
         return None;
     }
+
     let output1 = Command::new("/data/adb/apd")
         .arg("-V")
         .stdout(Stdio::piped())
@@ -42,7 +53,7 @@ pub fn get_apatch() -> Option<Version> {
         .output()
         .ok()?;
     let stdout1 = String::from_utf8(output1.stdout).ok()?;
-    let version = parse_version(&stdout1); // 返回 i32 类型的值
+    let version = parse_version(&stdout1); // Return i32 type value
     const MAX_OLD_VERSION: i32 = MIN_APATCH_VERSION - 1;
     match version {
         0 => Some(Version::Abnormal),
