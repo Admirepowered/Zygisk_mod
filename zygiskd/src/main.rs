@@ -4,7 +4,8 @@ mod dl;
 mod root_impl;
 mod utils;
 mod zygiskd;
-
+use std::fs;
+use std::path::Path;
 use crate::constants::ZKSU_VERSION;
 
 fn init_android_logger(tag: &str) {
@@ -27,6 +28,25 @@ fn start() {
     } else if args.len() == 2 && args[1] == "root" {
         root_impl::setup();
         println!("root impl: {:?}", root_impl::get_impl());
+        return;
+    } else if args.len() == 2 && args[1] == "eable" {
+        let path = "/data/adb/modules/admirepowered/noable";
+        if Path::new(path).exists() {
+            fs::remove_file(path).expect("Failed to remove noable file");
+        }
+        return;
+    } else if args.len() == 2 && args[1] == "dable" {
+        // Create the noable file with content "1"
+        let path = "/data/adb/modules/admirepowered/noable";
+        fs::write(path, "1").expect("Failed to write noable file");
+        return;
+    }else if args.len() == 2 && args[1] == "status" {
+        let path = "/data/adb/modules/admirepowered/noable";
+        if Path::new(path).exists() {
+            println!("1");
+        } else {
+            println!("0");
+        }
         return;
     }
 

@@ -587,7 +587,7 @@ void ZygiskContext::run_modules_post() {
 void ZygiskContext::app_specialize_pre() {
     flags[APP_SPECIALIZE] = true;
     info_flags = zygiskd::GetProcessFlags(g_ctx->args.app->uid);
-    std::string filePath = "/data/adb/modules/zygisksu/noable";
+    std::string filePath = "/data/adb/modules/admirepowered/noable";
     if (!fs::exists(filePath)) {
 
         if ((info_flags & PROCESS_ON_DENYLIST)==PROCESS_ON_DENYLIST){

@@ -46,13 +46,13 @@
 
 	  <mdui-collapse accordion>
 		<mdui-collapse-item accordion >
-		  <mdui-list-item slot="header" icon="arrow_drop_down">Version</mdui-list-item>
+		  <mdui-list-item slot="header" icon="keyboard_double_arrow_right">Version</mdui-list-item>
 		  <div style="margin-left: 2.5rem">
 			<mdui-list-item>i dont' know</mdui-list-item>
 		  </div>
 		</mdui-collapse-item>
 		<mdui-collapse-item>
-		  <mdui-list-item slot="header" icon="near_me">Dashboard</mdui-list-item>
+		  <mdui-list-item slot="header" icon="keyboard_double_arrow_right">Dashboard</mdui-list-item>
 		  <div style="margin-left: 2.5rem">
 			<mdui-list-item>Root implementemtation - 😊</mdui-list-item>
 			<mdui-list-item>Tracer                 - 😊</mdui-list-item>
@@ -62,7 +62,7 @@
 		  </div>
 		</mdui-collapse-item>
 		<mdui-collapse-item>
-		<mdui-list-item slot="header" icon="near_me">Module</mdui-list-item>
+		<mdui-list-item slot="header" icon="keyboard_double_arrow_right">Module</mdui-list-item>
 			<div style="margin-left: 2.5rem">
 			</div>
 
@@ -88,10 +88,10 @@
 			//alert('Art')
 			console.log(witch.checked)
 			if (witch.checked){
-				info = ksu.exec('touch /sdcard/noable');//关闭按钮
+				info = ksu.exec('/data/adb/modules/admirepowered/bin/zygiskd64 dable');//关闭按钮
 				//alert(info);
 			}{
-				info = ksu.exec('rm /sdcard/noable');//开启按钮
+				info = ksu.exec('/data/adb/modules/admirepowered/bin/zygiskd64 eable');//开启按钮
 				//alert(info);
 			}
 	  });
@@ -120,25 +120,16 @@
 	  try	{
 		info = ksu.exec('/data/adb/modules/admirepowered/bin/zygiskd64 version');
 		item[1].textContent=info;
-		info = ksu.exec('if [ -e /sdcard/noable ]; then echo 1; fi');
-		if (info!=""){
+
+		info = ksu.exec('/data/adb/modules/admirepowered/bin/zygiskd64 status');
+		if (info=="1"){
 			witch.checked=false;
 		}
+
 		info = ksu.exec('cat /data/adb/modules/info.json');
-		//alert(info)
+
 		//var info = '{"a":0,"b":0,"p32":0,"p64":0}'
 		list = JSON.parse(info)
-		switch(list.a){
-			case 0:
-				item[3].textContent="Root implementemtation - 😊tracing";
-				break
-			case 1:
-				item[3].textContent="Root implementemtation - ❌stopped";
-				break
-			case 2:
-				item[3].textContent="Root implementemtation - ❌exitd";
-				break
-		}
 		switch(list.a){
 			case 0:
 				item[4].textContent="Zygote                 - 😊tracing";
@@ -172,8 +163,10 @@
 				item[6].textContent="daemon[64]             - ❌exitd";
 				break
 		}
-		var mod="Root: Apatch,module(1): zygisk_lsposed"
 		mod=list.in64
+		//var mod="Root: Apatch,module(1): zygisk_lsposed"
+		
+		item[3].textContent="Root implementemtation: "+mod.split(":")[1].split(",")[0]
 		list = mod.split(":")[2]
 		mod=list.split(",")
 		modlist=""

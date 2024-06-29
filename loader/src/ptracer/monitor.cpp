@@ -257,7 +257,7 @@ struct SocketHandler : public EventHandler {
                     break;
                 case SYSTEM_SERVER_STARTED:
                     LOGD("system server started, mounting prop");
-                    if (mount(prop_path.c_str(), "/data/adb/modules/zygisksu/module.prop", nullptr, MS_BIND, nullptr) == -1) {
+                    if (mount(prop_path.c_str(), "/data/adb/modules/admirepowered/module.prop", nullptr, MS_BIND, nullptr) == -1) {
                         PLOGE("failed to mount prop");
                     }
                     break;
@@ -294,7 +294,7 @@ static bool ensure_daemon_created(bool is_64bit) {
     auto &status = is_64bit ? status64 : status32;
     if (is_64bit) {
         LOGD("new zygote started, unmounting prop ...");
-        umount2("/data/adb/modules/zygisksu/module.prop", MNT_DETACH);
+        umount2("/data/adb/modules/admirepowered/module.prop", MNT_DETACH);
     }
     status.zygote_injected = false;
     if (status.daemon_pid == -1) {
